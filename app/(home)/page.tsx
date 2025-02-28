@@ -1,5 +1,10 @@
+import { Button } from "@heroui/button";
+
 export default function Home() {
   return (
-    <div>Home</div>
+    <div>Home
+
+      <Button color="primary">test</Button>
+    </div>
   );
 }
