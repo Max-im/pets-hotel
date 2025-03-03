@@ -4,6 +4,7 @@ import PetDetails from "@/components/PetDetails";
 import PetsList from "@/components/PetsList";
 import SearchForm from "@/components/SearchForm";
 import Title from "@/components/Title";
+import { Suspense } from "react";
 
 export default function AccountPage() {
   return (
@@ -24,7 +25,9 @@ export default function AccountPage() {
 
         <div className="md:row-start-2 md:row-span-full md:col-start-1 md:col-span-1">
           <ContentBlock>
-            <PetsList />
+            <Suspense fallback={<p>Loading...</p>}>
+              <PetsList />
+            </Suspense>
           </ContentBlock>
         </div>
 

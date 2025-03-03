@@ -1,1 +1,1 @@
-export { fetchPets } from './pets';
+export { fetchPets, fetchPetsNum } from './pets';
