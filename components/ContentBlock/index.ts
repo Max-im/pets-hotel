@@ -1,2 +1,2 @@
-import PetDetails from './PetDetails';
-export default PetDetails;
+import ContentBlock from './ContentBlock';
+export default ContentBlock;

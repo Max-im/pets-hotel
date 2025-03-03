@@ -1,5 +1,5 @@
 import { fetchPetsByName } from '@/actions';
-import ContentBlock from '@/components/ContentBlock/ContentBlock';
+import ContentBlock from '@/components/ContentBlock';
 import GuestsStats from '@/components/GuestsStats';
 import PetDetails from '@/components/PetDetails';
 import PetsList from '@/components/PetsList';
