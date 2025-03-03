@@ -1,7 +1,7 @@
 import { fetchPetsNum } from "@/actions";
 
-export default async function GuestsStats() {
-  const guestsNum = await fetchPetsNum();
+export default async function GuestsStats({amount}: {amount?: number}) {
+  const guestsNum = amount || await fetchPetsNum();
 
   return (
     <section className="text-center">
