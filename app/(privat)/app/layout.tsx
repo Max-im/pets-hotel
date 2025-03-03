@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import Footer from "@/components/Footer";
-
+import PetProvider from "@/providers/petProvider";
 
 export const metadata: Metadata = {
   title: "PetSoft - Pet Daycare Store",
@@ -20,7 +20,9 @@ export default function Layout({
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-grow container max-w-5xl mx-auto px-4">
-          {children}
+          <PetProvider>
+            {children}
+          </PetProvider>
         </main>
         <Footer />
       </div>
