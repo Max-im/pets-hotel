@@ -5,12 +5,10 @@ import { Button } from "@/components/ui/button";
 export default function DashbordPage() {
   return (
     <>
-      <div className="flex justify-between items-center text-white py-8">
-        <section>
-          <Title>Your Account</Title>
-        </section>
+      <div>
+        <Title className="my-8 text-white">Your Account</Title>
 
-        <ContentBlock>
+        <ContentBlock className="h-[500px]">
           <p>Logged in as ...</p>
           <Button>Log out</Button>
         </ContentBlock>
