@@ -28,7 +28,7 @@ export default function Header() {
             {routes.map((route) => (
               <li key={route.path}>
                 <Link
-                  className={cn(`text-white/70 hover:text-white focus:text-white transition px-2 py-1 rounded-sm`, {'bg-black/10 text-white': activePathname === route.path})}
+                  className={cn(`text-white/70 hover:text-white focus:text-white transition px-2 py-1 rounded-sm`, {'bg-light text-white': activePathname === route.path})}
                   href={route.path}
                 >
                   {route.label}

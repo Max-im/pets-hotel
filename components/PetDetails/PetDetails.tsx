@@ -16,7 +16,7 @@ export default function PetDetails() {
 
   return (
     <section className="h-full w-full flex flex-col">
-      <div className="flex bg-white items-center py-4 px-8 border-b border-black/10">
+      <div className="flex bg-white items-center py-4 px-8 border-b border-light">
         <Image src={selectedPet.photo} alt={selectedPet.name} className="rounded-full h-[80px] w-[80px] object-cover" width={80} height={80} />
         <h2 className="text-3xl font-semibold leading-7 ml-5">{selectedPet.name}</h2>
       </div>
@@ -34,7 +34,7 @@ export default function PetDetails() {
         </div>
       </div>
 
-      <div className="text-lg bg-white p-8 rounded-md mb-9 mx-8 flex-1 border border-black/10"> 
+      <div className="text-lg bg-white p-8 rounded-md mb-9 mx-8 flex-1 border border-light"> 
         {selectedPet.notes}
       </div>
     </section>
