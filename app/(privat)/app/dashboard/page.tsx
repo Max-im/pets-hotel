@@ -1,3 +1,4 @@
+import AddPet from "@/components/AddPet";
 import ContentBlock from "@/components/ContentBlock";
 import GuestsStats from "@/components/GuestsStats";
 import PetDetails from "@/components/PetDetails";
@@ -24,10 +25,11 @@ export default function AccountPage() {
         </div>
 
         <div className="md:row-start-2 md:row-span-full md:col-start-1 md:col-span-1">
-          <ContentBlock>
+          <ContentBlock className="relative">
             <Suspense fallback={<p>Loading...</p>}>
               <PetsList />
             </Suspense>
+            <AddPet />
           </ContentBlock>
         </div>
 

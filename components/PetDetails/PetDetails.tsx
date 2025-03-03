@@ -2,6 +2,8 @@
 
 import { usePetContext } from "@/lib/hooks";
 import Image from "next/image";
+import EditPet from "@/components/EditPet";
+import CheckoutPet from "../CheckoutPet";
 
 export default function PetDetails() {
   const { selectedPet } = usePetContext();
@@ -19,6 +21,10 @@ export default function PetDetails() {
       <div className="flex bg-white items-center py-4 px-8 border-b border-light">
         <Image src={selectedPet.photo} alt={selectedPet.name} className="rounded-full h-[80px] w-[80px] object-cover" width={80} height={80} />
         <h2 className="text-3xl font-semibold leading-7 ml-5">{selectedPet.name}</h2>
+        <div className="flex gap-2 ml-auto">
+          <EditPet />
+          <CheckoutPet petId={selectedPet.id} />
+        </div>
       </div>
 
       <div className="flex justify-around p-8 text-center">
