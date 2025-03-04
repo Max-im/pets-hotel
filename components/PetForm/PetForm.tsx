@@ -1,20 +1,22 @@
 'use client';
 
 import { useActionState, useEffect } from "react";
+import { Loader2 } from "lucide-react";
+import { Pet } from "@prisma/client";
 import { FormPetState } from "@/actions/pets";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Loader2 } from "lucide-react";
 
 interface PetFormProps {
   actionCb: (formState: FormPetState, formData: FormData) => Promise<FormPetState>;
   btnText: string;
   onSuccess: () => void;
+  pet?: Pet;
 }
 
-export default function PetForm({ actionCb, btnText, onSuccess }: PetFormProps) {
+export default function PetForm({ actionCb, btnText, onSuccess, pet }: PetFormProps) {
   const [formState, action, isPending] = useActionState(actionCb, { errors: {} });
 
   useEffect(() => {
@@ -25,9 +27,13 @@ export default function PetForm({ actionCb, btnText, onSuccess }: PetFormProps) 
 
   return (
     <form action={action} className="flex flex-col space-y-4">
+      <div className="hidden">
+        <Input id="id" name="id" defaultValue={pet?.id} type="text" />    
+      </div>
+      
       <div>
         <Label htmlFor="name">Name</Label>
-        <Input id="name" name="name" type="text" placeholder="Name" required className={formState.errors.name ? "border-red-500 focus-visible:ring-red-500" : ""} />
+        <Input id="name" defaultValue={pet?.name} name="name" type="text" placeholder="Name" required className={formState.errors.name ? "border-red-500 focus-visible:ring-red-500" : ""} />
         {formState.errors.name && (
           <p className="text-sm text-red-500">{formState.errors.name.join(", ")}</p>
         )}
@@ -35,7 +41,7 @@ export default function PetForm({ actionCb, btnText, onSuccess }: PetFormProps) 
 
       <div>
         <Label htmlFor="owner">Owner Name</Label>
-        <Input id="owner" name="owner" type="text" placeholder="Owner Name" required className={formState.errors.owner ? "border-red-500 focus-visible:ring-red-500" : ""} />
+        <Input id="owner" name="owner" defaultValue={pet?.ownerName} type="text" placeholder="Owner Name" required className={formState.errors.owner ? "border-red-500 focus-visible:ring-red-500" : ""} />
         {formState.errors.owner && (
           <p className="text-sm text-red-500">{formState.errors.owner.join(", ")}</p>
         )}
@@ -43,7 +49,7 @@ export default function PetForm({ actionCb, btnText, onSuccess }: PetFormProps) 
 
       <div>
         <Label htmlFor="age">Age</Label>
-        <Input id="age" name="age" type="number" placeholder="Age" required className={formState.errors.age ? "border-red-500 focus-visible:ring-red-500" : ""} />
+        <Input id="age" name="age" type="number" defaultValue={pet?.age} placeholder="Age" required className={formState.errors.age ? "border-red-500 focus-visible:ring-red-500" : ""} />
         {formState.errors.age && (
           <p className="text-sm text-red-500">{formState.errors.age.join(", ")}</p>
         )}
@@ -51,7 +57,7 @@ export default function PetForm({ actionCb, btnText, onSuccess }: PetFormProps) 
 
       <div>
         <Label htmlFor="image">Image URL</Label>
-        <Input id="image" name="image" type="text" placeholder="Image URL" required className={formState.errors.image ? "border-red-500 focus-visible:ring-red-500" : ""} />
+        <Input id="image" name="image" type="text" defaultValue={pet?.photo} placeholder="Image URL" required className={formState.errors.image ? "border-red-500 focus-visible:ring-red-500" : ""} />
         {formState.errors.image && (
           <p className="text-sm text-red-500">{formState.errors.image.join(", ")}</p>
         )}
@@ -59,7 +65,7 @@ export default function PetForm({ actionCb, btnText, onSuccess }: PetFormProps) 
 
       <div>
         <Label htmlFor="notifications">Notifications</Label>
-        <Textarea id="notifications" name="notifications" placeholder="Notifications" required rows={3} className={formState.errors.notifications ? "border-red-500 focus-visible:ring-red-500" : ""} />
+        <Textarea id="notifications" name="notifications" defaultValue={pet?.notes} placeholder="Notifications" required rows={3} className={formState.errors.notifications ? "border-red-500 focus-visible:ring-red-500" : ""} />
         {formState.errors.notifications && (
           <p className="text-sm text-red-500">{formState.errors.notifications.join(", ")}</p>
         )}

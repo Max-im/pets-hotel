@@ -1,2 +1,2 @@
-export { fetchPets, fetchPetsNum, fetchPetsByName, checkoutPet, addPet } from './pets';
+export { fetchPets, fetchPetsNum, fetchPetsByName, checkoutPet, addPet, editPet } from './pets';
 export { search } from './search';

@@ -22,7 +22,7 @@ export default function PetDetails() {
         <Image src={selectedPet.photo} alt={selectedPet.name} className="rounded-full h-[80px] w-[80px] object-cover" width={80} height={80} />
         <h2 className="text-3xl font-semibold leading-7 ml-5">{selectedPet.name}</h2>
         <div className="flex gap-2 ml-auto">
-          <EditPet />
+          <EditPet pet={selectedPet} />
           <CheckoutPet petId={selectedPet.id} />
         </div>
       </div>
