@@ -4,15 +4,13 @@ import { Button } from "@/components/ui/button";
 
 export default function DashbordPage() {
   return (
-    <>
-      <div>
-        <Title className="my-8 text-white">Your Account</Title>
+    <div>
+      <Title className="my-8 text-white">Your Account</Title>
 
-        <ContentBlock className="h-[500px]">
-          <p>Logged in as ...</p>
-          <Button>Log out</Button>
-        </ContentBlock>
-      </div>
-    </>
+      <ContentBlock className="h-[500px]">
+        <p>Logged in as ...</p>
+        <Button>Log out</Button>
+      </ContentBlock>
+    </div>
   )
 }

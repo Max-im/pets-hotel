@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { createPetSchema, TPetForm } from "@/schema/createPet.schema";
+import { createPetSchema, TPetForm } from "@/schema/pet.schema";
 
 interface PetFormProps {
   actionCb: (formState: FormPetState, formData: FormData) => Promise<FormPetState>;

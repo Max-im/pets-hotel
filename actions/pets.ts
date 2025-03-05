@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { Pet } from '@prisma/client';
 import { db } from '@/db';
-import { createPetSchema, petIdSchema } from "@/schema/createPet.schema";
+import { createPetSchema, petIdSchema } from "@/schema/pet.schema";
 
 export const fetchPets = async (): Promise<Pet[]> => {
     return await db.pet.findMany({});
