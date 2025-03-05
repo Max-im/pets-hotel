@@ -64,72 +64,42 @@ export default function PetForm({ actionCb, btnText, onSuccess, pet }: PetFormPr
 
       <div>
         <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          {...register('name')}
-        />
-        {errors.name && (
-          <p className="text-sm text-red-500">{errors.name.message}</p>
-        )}
-        {formState.errors.name && (
-          <p className="text-sm text-red-500">{formState.errors.name.join(", ")}</p>
+        <Input id="name" {...register('name')} />
+        {(errors.name || formState.errors.name) && (
+          <p className="text-sm text-red-500">{errors.name?.message || formState.errors.name?.join(", ")}</p>
         )}
       </div>
 
       <div>
         <Label htmlFor="owner">Owner Name</Label>
-        <Input
-          id="owner"
-          {...register('owner', { required: 'Owner Name is required' })}
-        />
-        {errors.owner && (
-          <p className="text-sm text-red-500">{errors.owner.message}</p>
-        )}
-        {formState.errors.owner && (
-          <p className="text-sm text-red-500">{formState.errors.owner.join(", ")}</p>
+        <Input id="owner" {...register('owner', { required: 'Owner Name is required' })} />
+        {(errors.owner || formState.errors.owner) && (
+          <p className="text-sm text-red-500">{errors.owner?.message || formState.errors.owner?.join(", ")}</p>
         )}
       </div>
 
       <div>
         <Label htmlFor="age">Age</Label>
-        <Input
-          id="age"
-          type="number"
-          {...register('age', { required: 'Age is required' })}
-        />
-        {errors.age && (
-          <p className="text-sm text-red-500">{errors.age.message}</p>
-        )}
-        {formState.errors.age && (
-          <p className="text-sm text-red-500">{formState.errors.age.join(", ")}</p>
+        <Input id="age" type="number" {...register('age', { required: 'Age is required' })} />
+        {(errors.age || formState.errors.age) && (
+          <p className="text-sm text-red-500">{errors.age?.message || formState.errors.age?.join(", ")}</p>
         )}
       </div>
 
       <div>
         <Label htmlFor="image">Image URL</Label>
-        <Input
-          id="image"
-          {...register('image', { required: 'Image URL is required' })}
-        />
-        {errors.image && (
-          <p className="text-sm text-red-500">{errors.image.message}</p>
-        )}
-        {formState.errors.image && (
-          <p className="text-sm text-red-500">{formState.errors.image.join(", ")}</p>
+        <Input id="image" {...register('image', { required: 'Image URL is required' })} />
+        {(errors.image || formState.errors.image) && (
+          <p className="text-sm text-red-500">{errors.image?.message || formState.errors.image?.join(", ")}</p>
         )}
       </div>
 
       <div>
         <Label htmlFor="notifications">Notifications</Label>
-        <Textarea
-          id="notifications"
-          {...register('notifications', { required: 'Notification is required' })}
+        <Textarea id="notifications" {...register('notifications', { required: 'Notification is required' })}
         />
-        {errors.notifications && (
-          <p className="text-sm text-red-500">{errors.notifications.message}</p>
-        )}
-        {formState.errors.notifications && (
-          <p className="text-sm text-red-500">{formState.errors.notifications.join(", ")}</p>
+        {(errors.notifications || formState.errors.notifications) && (
+          <p className="text-sm text-red-500">{errors.notifications?.message || formState.errors.notifications?.join(", ")}</p>
         )}
       </div>
 
