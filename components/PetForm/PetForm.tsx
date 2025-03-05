@@ -78,9 +78,7 @@ export default function PetForm({ actionCb, btnText, onSuccess, pet }: PetFormPr
       ) : null}
 
       {isPending ? (
-        <>
-          <Loader2 className="animate-spin w-4 h-4 mr-2" /> Processing...
-        </>
+          <Button className="mt-4 flex" disabled><Loader2 className="animate-spin m-auto" /></Button>
       ) : (
         <Button type="submit" className="mt-4">{btnText}</Button>
       )}
