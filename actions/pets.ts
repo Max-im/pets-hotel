@@ -62,6 +62,7 @@ export interface FormPetState {
         _form?: string[],
     },
     success?: boolean;
+    pet?: Pet;
 }
 
 export const addPet = async (formState: FormPetState, formData: FormData): Promise<FormPetState> => {
@@ -130,8 +131,9 @@ export const editPet = async (formState: FormPetState, formData: FormData): Prom
         };
     }
 
+    let pet;
     try {
-        await db.pet.update({
+        pet = await db.pet.update({
             where: { id: formData.get('id') as string },
             data: {
                 name: result.data.name,
@@ -163,6 +165,7 @@ export const editPet = async (formState: FormPetState, formData: FormData): Prom
 
     return {
         success: true,
-        errors: {}
+        errors: {},
+        pet
     };
 }

@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 interface PetFormProps {
   actionCb: (formState: FormPetState, formData: FormData) => Promise<FormPetState>;
   btnText: string;
-  onSuccess: () => void;
+  onSuccess: (pet?: Pet) => void;
   pet?: Pet;
 }
 
@@ -21,7 +21,7 @@ export default function PetForm({ actionCb, btnText, onSuccess, pet }: PetFormPr
 
   useEffect(() => {
     if (formState.success) {
-      onSuccess();
+      onSuccess(formState.pet);
     }
   }, [formState.success]);
 
