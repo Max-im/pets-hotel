@@ -29,6 +29,12 @@ export interface CheckoutPetState {
 }
 
 export const checkoutPet = async (petId: string) => {
+    const idResult = petIdSchema.safeParse(petId);
+    if (!idResult.success) {
+        return {
+            errors: ['Invalid pet ID']
+        };
+    }
     try {
         await db.pet.delete({ where: { id: petId } });
     } catch (err) {
