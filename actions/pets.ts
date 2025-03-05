@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { Pet } from '@prisma/client';
 import { db } from '@/db';
-import { createPetSchema } from "@/schema/createPet.schema";
+import { createPetSchema, petIdSchema } from "@/schema/createPet.schema";
 
 export const fetchPets = async (): Promise<Pet[]> => {
     return await db.pet.findMany({});
@@ -124,6 +124,7 @@ export const editPet = async (formState: FormPetState, formData: FormData): Prom
         image: formData.get('image') as string,
         notifications: formData.get('notifications') as string,
     });
+
     
     if (!result.success) {
         return {
@@ -131,10 +132,19 @@ export const editPet = async (formState: FormPetState, formData: FormData): Prom
         };
     }
 
+    const idResult = petIdSchema.safeParse(formData.get('id') as string);
+    if (!idResult.success) {
+        return {
+            errors: {
+                _form: ['Invalid pet ID']
+            },
+        };
+    }
+
     let pet;
     try {
         pet = await db.pet.update({
-            where: { id: formData.get('id') as string },
+            where: { id: idResult.data },
             data: {
                 name: result.data.name,
                 ownerName: result.data.owner,

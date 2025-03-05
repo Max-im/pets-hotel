@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { checkoutPet } from "@/actions";
 import { Button } from "../ui/button";
 import { usePetContext } from "@/lib/hooks";
@@ -18,9 +18,11 @@ export default function CheckoutPet({ petId }: { petId: string }) {
     setSelectedPet(null);
   }
 
-  if (formState.errors.length) {
-    toast.error(formState.errors.join(", "));
-  }
+  useEffect(() => {
+    if (formState.errors.length) {
+      toast.error(formState.errors.join(", "));
+    }
+  }, [formState.errors.length]);
 
   if (isPending) {
     return (<Button variant="secondary" disabled>
