@@ -3,6 +3,7 @@ import ContentBlock from "@/components/ContentBlock";
 import Title from "@/components/Title";
 import Logo from "@/components/Logo";
 import SignUpForm from "@/components/SignUpForm";
+import { Suspense } from "react";
 
 export default function SignUpPage() {
   return (
@@ -13,7 +14,9 @@ export default function SignUpPage() {
         <div className="m-auto flex flex-col space-y-4 justify-center items-center">
           <Logo />
           <Title>Sign Up</Title>
-          <SignUpForm />
+          <Suspense>
+            <SignUpForm />
+          </Suspense>
           <p className="flex items-center gap-x-2">
             Have an account?
             <Link href="/login" className="text-blue-500">Login</Link>

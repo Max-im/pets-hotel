@@ -1,6 +1,7 @@
 'use client';
 
 import { useActionState, useEffect } from "react";
+import { useSearchParams, redirect } from 'next/navigation';
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +20,7 @@ export default function LoginForm() {
   } = useForm<TLoginForm>({
     resolver: zodResolver(loginSchema),
   });
+  const searchParams = useSearchParams();
 
   const onAction = async (formState: FormLoginState, formData: FormData) => {
     const result = await trigger();
@@ -35,8 +37,9 @@ export default function LoginForm() {
   const [formState, action, isPending] = useActionState(onAction, { errors: {} });
 
   useEffect(() => {
-    if (formState.success) {
-      console.log('success')
+    if (formState.redirect) {
+      const callbackUrl = searchParams.get('callbackUrl') || '/app/dashboard';
+      redirect(callbackUrl);
     }
   }, [formState.success]);
 

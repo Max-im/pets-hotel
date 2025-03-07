@@ -1,7 +1,10 @@
 'use server';
 
+import bcrypt from "bcryptjs";
 import { db } from '@/db';
 import { loginSchema } from "@/schema/auth.schema";
+import { signIn, signOut } from '@/auth';
+import { AuthError } from "next-auth";
 
 export interface FormLoginState {
     errors: {
@@ -9,44 +12,31 @@ export interface FormLoginState {
         password?: string[],
         _form?: string[],
     },
+    redirect?: boolean;
     success?: boolean;
 }
 
 export const login = async (formState: FormLoginState, formData: FormData): Promise<FormLoginState> => {
-    const result = loginSchema.safeParse({
-        name: formData.get('email') as string,
-        password: formData.get('password') as string,
-    });
-    
-    if (!result.success) {
-        return {
-            errors: result.error.flatten().fieldErrors,
-        };
-    }
-
     try {
-        await db.pet.user({
-            data: {
-                email: result.data.email,
-                password: result.data.password,
-            }
-        });
-    } catch (err) {
+        await signIn('credentials', formData);
+    } catch (error) {
         const defaultError = 'Login error';
-
-        if (err instanceof Error) {
+        if (error && typeof error === 'object' && 'digest' in error) {
             return {
-                errors: {
-                    _form: [err.message || defaultError]
-                }
-            }
-        } else {
-            return {
-                errors: {
-                    _form: [defaultError]
-                }
-            }
+                errors: {},
+                redirect: true,
+                success: true
+            };
         }
+        if (error instanceof AuthError) {
+            return {
+                errors: { _form: [error.message || defaultError] }
+            }
+        };
+
+        return {
+            errors: { _form: [defaultError] }
+        };
     }
 
     return {
@@ -59,6 +49,7 @@ export interface FormSignupState {
     errors: {
         email?: string[],
         password?: string[],
+        confirmPassword?: string[],
         _form?: string[],
     },
     success?: boolean;
@@ -66,11 +57,11 @@ export interface FormSignupState {
 
 export const signup = async (formState: FormSignupState, formData: FormData): Promise<FormSignupState> => {
     const result = loginSchema.safeParse({
-        name: formData.get('email') as string,
+        email: formData.get('email') as string,
         password: formData.get('password') as string,
         confirmPassword: formData.get('confirmPassword') as string,
     });
-    
+
     if (!result.success) {
         return {
             errors: result.error.flatten().fieldErrors,
@@ -78,10 +69,13 @@ export const signup = async (formState: FormSignupState, formData: FormData): Pr
     }
 
     try {
-        await db.pet.user.create({
+        const hashedPassword = await bcrypt.hash(result.data.password, 10);
+
+        await db.user.create({
             data: {
                 email: result.data.email,
-                password: result.data.password,
+                hashedPassword
+
             }
         });
     } catch (err) {
@@ -106,4 +100,8 @@ export const signup = async (formState: FormSignupState, formData: FormData): Pr
         success: true,
         errors: {}
     };
+}
+
+export async function logOut() {
+    return signOut({ redirectTo: '/' });
 }
