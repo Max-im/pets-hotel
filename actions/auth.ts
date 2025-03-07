@@ -5,6 +5,7 @@ import { db } from '@/db';
 import { loginSchema } from "@/schema/auth.schema";
 import { signIn, signOut } from '@/auth';
 import { AuthError } from "next-auth";
+import { Prisma } from "@prisma/client";
 
 export interface FormLoginState {
     errors: {
@@ -80,6 +81,17 @@ export const signup = async (formState: FormSignupState, formData: FormData): Pr
         });
     } catch (err) {
         const defaultError = 'Sign Up error';
+
+        if(err instanceof Prisma.PrismaClientKnownRequestError) {
+            if(err.code === 'P2002') {
+                return {
+                    errors: {
+                        _form: ['User already exists']
+                    }
+                }
+            }
+
+        }
 
         if (err instanceof Error) {
             return {
