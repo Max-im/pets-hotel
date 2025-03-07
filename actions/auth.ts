@@ -22,22 +22,14 @@ export const login = async (formState: FormLoginState, formData: FormData): Prom
         await signIn('credentials', formData);
     } catch (error) {
         const defaultError = 'Login error';
-        if (error && typeof error === 'object' && 'digest' in error) {
-            return {
-                errors: {},
-                redirect: true,
-                success: true
-            };
-        }
+    
         if (error instanceof AuthError) {
             return {
                 errors: { _form: [error.message || defaultError] }
             }
         };
 
-        return {
-            errors: { _form: [defaultError] }
-        };
+        throw error;
     }
 
     return {
