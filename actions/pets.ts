@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { Pet } from '@prisma/client';
 import { db } from '@/db';
 import { createPetSchema, petIdSchema } from "@/schema/pet.schema";
+import { auth } from "@/auth";
 
 export const fetchPets = async (): Promise<Pet[]> => {
     return await db.pet.findMany({});
@@ -35,8 +36,17 @@ export const checkoutPet = async (petId: string) => {
             errors: ['Invalid pet ID']
         };
     }
+
+    const session = await auth();
+    if (!session?.user || !session.user.id) {
+        return {
+            errors: {_form: ['User not found']},
+        };
+    }
+    
+
     try {
-        await db.pet.delete({ where: { id: petId } });
+        await db.pet.delete({ where: { id: petId, userId: session.user.id } });
     } catch (err) {
         const defaultError = 'Checkout pet error';
 
@@ -85,7 +95,14 @@ export const addPet = async (formState: FormPetState, formData: FormData): Promi
             errors: result.error.flatten().fieldErrors,
         };
     }
-
+    
+    const session = await auth();
+    if (!session?.user || !session.user.id) {
+        return {
+            errors: {_form: ['User not found']},
+        };
+    }
+    
     try {
         await db.pet.create({
             data: {
@@ -94,6 +111,7 @@ export const addPet = async (formState: FormPetState, formData: FormData): Promi
                 age: result.data.age,
                 photo: result.data.image,
                 notes: result.data.notifications,
+                userId: session.user.id,
             }
         });
     } catch (err) {
@@ -130,7 +148,13 @@ export const editPet = async (formState: FormPetState, formData: FormData): Prom
         image: formData.get('image') as string,
         notifications: formData.get('notifications') as string,
     });
-
+    
+    const session = await auth();
+    if (!session?.user || !session.user.id) {
+        return {
+            errors: {_form: ['User not found']},
+        };
+    }
     
     if (!result.success) {
         return {
@@ -150,7 +174,7 @@ export const editPet = async (formState: FormPetState, formData: FormData): Prom
     let pet;
     try {
         pet = await db.pet.update({
-            where: { id: idResult.data },
+            where: { id: idResult.data, userId: session.user.id },
             data: {
                 name: result.data.name,
                 ownerName: result.data.owner,
